@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dynamiQs e.U.</title>
+    <meta name="description" content="dynamiQs e.U. - Innovative Projekte und zukunftsorientierte Planung">
+    <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Lato', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        #dynamic-text {
+            font-size: 1.8vw;
+            font-family: 'Julius Sans One', sans-serif;
+            position: absolute;
+            left: 21vw;
+            top: 23vh;
+            z-index: 10;
+        }
+        #header-text {
+            font-size: 3.2vw;
+            font-family: 'Julius Sans One', sans-serif;
+            position: absolute;
+            left: 21vw;
+            top: 16vh;
+            z-index: 10;
+        }
+        @media (max-width: 768px) {
+            #dynamic-text {
+                font-size: 3vw;
+                left: 5vw;
+                top: 25vh;
+            }
+            #header-text {
+                font-size: 5vw;
+                left: 5vw;
+                top: 20vh;
+            }
+        }
+        header {
+            background: rgba(255, 255, 255, 0.0);
+            min-height: 230px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 5px 0px;
+            position: relative;
+            z-index: 10;
+        }
+        header .logo {
+            height: auto;
+            max-width: 100%;
+            position: absolute;
+            top: -25px;
+            left: 30px;
+        }
+        header .contact, header .search, header .language-selector {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 10px;
+        }
+        header .contact {
+            right: 65px;
+        }
+        header .search {
+            right: 200px;
+            top: 10px;
+        }
+        header .language-selector {
+            right: 55px;
+            top: 15px;
+        }
+        header .contact a {
+            color: black;
+            text-decoration: none;
+            margin-left: 2px;
+        }
+        header .contact img {
+            width: 50px;
+            height: 50px;
+            vertical-align: middle;
+        }
+        header .search input[type="text"] {
+            width: 5px;
+            padding: 8px;
+            padding-left: 40px;
+            font-size: 14px;
+            border: 1px solid black;
+            border-radius: 20px;
+            margin-right: 10px;
+            background: url('lupe.png') no-repeat 10px center black;
+            background-size: 20px 20px;
+            background-color: rgba(0, 0, 0, 0.8); 
+            color: white;
+            padding-right: 5px;
+            transition: width 0.3s;
+        }
+        header .search input[type="text"].expanded {
+            width: 110px;
+        }
+        header .search input[type="text"]::placeholder {
+            color: transparent;
+        }
+        header .language-selector a {
+            color: black;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        header .language-selector a:hover {
+            color: #f1c232;
+            font-weight: bold;
+        }
+        #container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            transition: margin-left 0.3s ease; /* Smooth transition for main content shift */
+        }
+        nav {
+            width: 300px; /* Fixed width for navigation */
+            background: rgba(179, 190, 182);
+            padding: 0;
+            text-align: center;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            position: fixed; /* Fix the navigation to the top */
+            top: 0; /* Ensure it stays at the top */
+            left: 0;
+            height: 100vh; /* Full height */
+            overflow-y: auto; /* Allow scrolling */
+        }
+        nav ul {
+            list-style: none;
+            margin: 5px;
+            padding: 0px 0;
+            display: flex;
+            flex-direction: column; /* Vertically arrange items */
+            justify-content: flex-start; /* Start from top */
+            align-items: center; /* Zentriert die Listenelemente */
+            padding: 170px 0 0 0; /* Verschiebt den Text 250px nach unten */
+        }
+        nav ul li {
+            margin: 0px 0; /* Setzt vertikalen Abstand auf 2px */
+            padding: 0;
+        }
+        nav a {
+            color: black;
+            text-decoration: none;
+            padding: 4px 10px;
+            font-size: 16px;
+            display: block;
+            transition: color 0.3s;
+        }
+        nav a img {
+            z-index: 100; /* Setzt den z-index auf einen höheren Wert als der Footer */
+            position: relative; /* Erforderlich für z-index */
+            margin-top: -30px; /* Verschiebt die Grafik 20px nach oben */
+    margin-bottom: 40px; /* Fügt zusätzlichen Abstand zwischen Grafik und den Wörtern hinzu */
+        }
+        nav a:hover {
+            color: black;
+            transform: scale(1.20);
+            transition: transform 0.3s, color 0.3s;
+            font-weight: bold;
+        }
+        nav img:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s, color 0.3s;
+        }
+        main {
+            flex: 1;
+            padding: 0; /* Remove padding for full-width effect */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 300px;
+            margin-left: 300px; /* Offset for fixed navigation */
+	    margin-top: 15px;
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            min-height: 300px;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+        .slide img:hover {
+            filter: grayscale(0%);
+        }
+        .overlay-text {
+            position: absolute;
+            top: 20px;
+            left: 35%;
+            color: black;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 1px;
+            border: 1px solid black;
+	    width: 300px;
+            text-align: center;
+        }
+        .nav-button {
+            position: absolute;
+            top: 40px;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            border: 1px solid black;
+            padding: 3px;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 25px;
+            border-radius: 1px;
+        }
+        .prev {
+            left: 20px;
+        }
+        .next {
+            right: 20px;
+        }
+        .slide-info {
+            position: absolute;
+            top: 60px;
+            left: 35%;
+            background: rgba(255, 255, 255, 0.5);
+            color: black;
+            padding: 10px;
+            border-radius: 1px;
+            display: none;
+            box-sizing: border-box;
+            font-size: 0.8em;
+            border: 1px solid black;
+	    height: 35px;
+	    width: 321.5px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .slide-info {
+                top: 50px;
+                left: 50px;
+                padding: 5px;
+                font-size: 0.6em;
+                max-width: 125px;
+            }
+            .slider-container {
+                margin-left: 0; /* Remove offset when nav is hidden */
+            }
+            main {
+                margin-left: 0; /* Remove offset for main content */
+            }
+            .overlay-text {
+                font-size: 12px; /* Reduce font size for small screens */
+                padding: 5px 10px;
+            }
+            .nav-button {
+                font-size: 35px; /* Reduce button size for small screens */
+                padding: 3px;
+		top: 46px;
+            }
+        }
+        @media (min-width: 769px) {
+            .slider-container {
+                padding-top: 0; /* Ensure no gap at top */
+                margin-top: -5px; /* Align with header */
+            }
+            .slide img {
+                margin-bottom: -5px; /* Align with footer */
+            }
+        }
+        .slide-info a {
+            color: black;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .slide-info a:visited {
+            color: black;
+        }
+        .slide-info a:hover {
+            color: rgba(255, 207, 125, 0.9);
+            text-decoration: underline;
+        }
+        footer {
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+            text-align: center;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            border-top: 1px solid #c0c0c0;
+            margin: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            z-index: 10;
+        }
+        .footer-left {
+            flex: 1;
+            text-align: left;
+        }
+        .footer-right {
+            flex: 1;
+            text-align: right;
+        }
+        footer a {
+            color: black;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: black;
+            font-weight: bold;
+        }
+        #back-to-top {
+            position: fixed;
+            bottom: 35px;
+            right: 5px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            z-index: 20;
+        }
+        /* Burger menu styles */
+        .burger-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0; /* Ändert die Positionierung auf der rechten Seite */
+            height: 100%;
+            width: 230px;
+            background: rgba(179, 190, 182);
+            z-index: 30;
+            overflow-y: auto;
+            transform: translateX(230px); /* Initial versteckt auf der rechten Seite */
+            transition: transform 0.3s ease;
+        }
+        .burger-menu.open {
+            display: block;
+            transform: translateX(0); /* Öffnet das Menü nach links */
+            background: rgba(179, 190, 182, 0.9);
+        }
+        .burger-menu ul {
+            list-style: none;
+            padding: 10px;
+            margin: 0;
+        }
+        .burger-menu a {
+            display: block;
+            padding: 10px;
+            color: black;
+            text-decoration: none;
+            font-size: 12px;
+            transition: background 0.3s;
+            text-align: center;
+        }
+        .burger-menu a:hover {
+            background: rgba(238, 238, 238, 0.7);
+        }
+        .burger-icon {
+            display: none;
+            position: fixed;
+            top: 15px;
+            right: 20px; /* Ändert die Positionierung auf der rechten Seite */
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            z-index: 40;
+        }
+        .burger-icon div {
+            width: 30px;
+            height: 4px;
+            background-color: black;
+            margin: 6px 0;
+            transition: all 0.3s ease;
+        }
+        .burger-icon.open div:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+        .burger-icon.open div:nth-child(2) {
+            opacity: 0;
+        }
+        .burger-icon.open div:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+        @media (max-width: 768px) {
+            nav {
+                display: none; /* Hide regular navigation on small screens */
+            }
+            .burger-icon {
+                display: block;
+            }
+            header {
+                height: auto;
+                padding: 10px;
+            }
+            header .logo {
+                height: 130px; /* Doppelt so groß wie die ursprüngliche kleinste Höhe */
+                max-width: 750px; /* Entsprechend der neuen Höhe anpassen */
+		margin-top: 20px;
+		margin-left: -25px;
+            }
+            .burger-menu {
+                display: none;
+            }
+            .burger-menu.open {
+                display: block;
+                transform: translateX(0);
+            }
+        }
+
+        /* Auto-close burger menu when window is resized to larger screens */
+        @media (min-width: 769px) {
+            .burger-menu {
+                display: none !important;
+                transform: translateX(-230px); /* Ensure it's hidden */
+            }
+            .burger-icon {
+                display: none;
+            }
+            nav {
+                display: flex;
+            }
+            #container {
+                margin-left: 0; /* Reset any shifts made by burger menu */
+            }
+        }
+
+        .cookie-banner {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 207, 125, 0.9);
+            color: black;
+            text-align: center;
+            padding: 3px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .cookie-banner p {
+            margin: 0;
+            display: inline;
+        }
+        .cookie-banner button {
+            margin-left: 15px;
+            padding: 5px 10px;
+            background-color: #eeeeee;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .cookie-banner button:hover {
+            background-color:  rgba(179, 190, 182);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.querySelector('.search input[type="text"]');
+            searchInput.addEventListener('focus', () => {
+                searchInput.classList.add('expanded');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.classList.remove('expanded');
+            });
+
+            const texts = [
+                "Erstellung von Energieausweisen",
+                "behördliche Einreichungen und bauphysikalische Nachweiserstellung",
+                "ökologische Bewertung von Bauteilen und Gebäuden",
+                "nachhaltige Gebäudezertifizierung"
+            ];
+
+            let currentIndex = 0;
+            const typingSpeed = 120;
+            const changeInterval = 1300;
+
+            function typeText(text, callback) {
+                let index = 0;
+                const interval = setInterval(() => {
+                    document.getElementById('dynamic-text').textContent = text.slice(0, index + 1);
+                    index++;
+                    if (index === text.length) {
+                        clearInterval(interval);
+                        if (callback) callback();
+                    }
+                }, typingSpeed / text.split(' ').length);
+            }
+
+            function changeText() {
+                typeText(texts[currentIndex], () => {
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % texts.length;
+                        changeText();
+                    }, changeInterval);
+                });
+            }
+
+    changeText(); // Start the text change process after DOM is loaded
+
+            // Burger menu functionality
+            const burgerIcon = document.querySelector('.burger-icon');
+            const burgerMenu = document.querySelector('.burger-menu');
+
+            burgerIcon.addEventListener('click', () => {
+                burgerIcon.classList.toggle('open');
+                burgerMenu.classList.toggle('open');
+            });
+
+            // Close the burger menu when resizing to larger screens
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    burgerIcon.classList.remove('open');
+                    burgerMenu.classList.remove('open');
+                }
+            });
+
+            // Slider functionality
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach((slide, index) => {
+                slide.addEventListener('mouseover', () => {
+                    const infoBox = slide.querySelector('.slide-info');
+                    infoBox.style.display = 'block';
+                });
+                slide.addEventListener('mouseout', () => {
+                    const infoBox = slide.querySelector('.slide-info');
+                    infoBox.style.display = 'none';
+                });
+            });
+
+            document.querySelector('.next').addEventListener('click', nextSlide);
+            document.querySelector('.prev').addEventListener('click', prevSlide);
+
+            showSlides(); // Ensure the first slide is displayed on load
+
+            // Cookie banner functionality
+            var cookieBanner = document.getElementById("cookie-banner");
+            var acceptCookiesButton = document.getElementById("accept-cookies");
+
+            if (!localStorage.getItem("cookiesAccepted")) {
+                cookieBanner.style.display = "block";
+            }
+
+            acceptCookiesButton.addEventListener("click", function () {
+                localStorage.setItem("cookiesAccepted", "true");
+                cookieBanner.style.display = "none";
+            });
+
+        });
+
+        let slideIndex = 0;
+
+        function showSlides() {
+            const slides = document.querySelectorAll('.slide');
+            const slideContainer = document.querySelector('.slides');
+            slideContainer.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+        }
+
+        function nextSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlides();
+        }
+
+        function prevSlide() {
+            const slides = document.querySelectorAll('.slide');
+            slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+            showSlides();
+        }
+
+        function backToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function searchSite(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value;
+                window.find(query);
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img src="firmenlogo.png" alt="Firmenlogo" class="logo">
+        <div class="contact">
+            <div class="search">
+                <input type="text" placeholder=" " onkeypress="searchSite(event)">
+            </div>
+            <div class="language-selector">
+                <a href="de__index.html">DE</a> | 
+                <a href="en__index.html">EN</a> | 
+                <a href="bks__index.html">BKS</a>
+            </div>
+            <a href="mailto:your-email@example.com">
+                <img src="email.png" alt="Kontakt">
+            </a>
+        </div>
+        <div id="dynamic-text"></div>
+        <div id="header-text">Ingenieurbüro für Bauphysik</div>
+    </header>
+    <div class="burger-icon">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="burger-menu">
+        <ul>
+            <li><a href="de_i_philosophie.html">Philosophie</a></li>
+            <li><a href="de_i_team.html">Über uns</a></li>
+             <li>______________________________</li>
+            <li><a href="de_l_bauphysik.html">thermische Bauphysik</a></li>
+            <li><a href="de_l_schallschutz.html">Bauakustik & Schallschutz</a></li>
+            <li><a href="de_l_laermschutz.html">Lärmschutz</a></li>
+            <li><a href="de_l_raumakustik.html">Raumakustik</a></li>
+            <li><a href="de_l_bauoekologie.html">Bauökologie</a></li>
+            <li><a href="de_l_zertifizierungen.html">Gebäudezertifizierungen</a></li>
+            <li><a href="de_l_simulationen.html">Simulationen</a></li>
+             <li>______________________________</li>
+            <li><a href="de_i_referenzen.html">Referenzen</a></li>
+            <li><a href="de_i_kontakt.html">Kontakt</a></li>
+                <a href="de__index.html">
+                    <img src="navigatorlogo.png" alt="Startseite" style="width: 50px; height: 50px;">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="container">
+        <nav>
+            <ul>
+                <li>
+                    <a href="de__index.html">
+                        <img src="navigatorlogo.png" alt="Startseite" style="width: 50px; height: 50px;">
+                    </a>
+                </li>
+                <li><a href="de_i_philosophie.html">PHILOSOPHIE</a></li>
+                <li><a href="de_i_team.html">ÜBER UNS</a></li>
+                <li>_________</li>
+                <li><a href="de_l_bauphysik.html">THERMISCHE BAUPHYSIK</a></li>
+                <li><a href="de_l_schallschutz.html">BAUAKUSTIK / SCHALLSCHUTZ</a></li>
+                <li><a href="de_l_laermschutz.html">LÄRMSCHUTZ</a></li>
+                <li><a href="de_l_raumakustik.html">RAUMAKUSTIK</a></li>
+                <li><a href="de_l_bauoekologie.html">BAUÖKOLOGIE</a></li>
+                <li><a href="de_l_zertifizierungen.html">GEBÄUDEZERTIFIZIERUNGEN</a></li>
+                <li><a href="de_l_simulationen.html">SIMULATIONEN</a></li>
+                <li>_________</li>
+                <li><a href="de_i_referenzen.html">REFERENZEN</a></li>
+                <li><a href="de_i_kontakt.html">KONTAKT</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="slider-container">
+                <div class="slides">
+                    <div class="slide">
+                        <img src="Projekt_Trausdorf.png" alt="Projekt Trausdorf">
+                        <div class="overlay-text">Projekt - Trausdorf an der Wulka</div>
+                        <div class="slide-info">
+                            <a href="https://www.studio-calas.net/" target="_blank">Bildquelle: Studio Calas</a>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <img src="Projekt_Gereute.png" alt="Zweites Projekt">
+                        <div class="overlay-text">Projekt - Zweites Beispiel</div>
+                        <div class="slide-info">
+                            <a href="https://www.studio-calas.net/" target="_blank">Bildquelle: Projekt 2</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="nav-button prev" onclick="minusSlide()">&#10094;</button>
+                <button class="nav-button next" onclick="plusSlide()">&#10095;</button>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <div class="footer-left">
+            <p>&copy; 2025 dynamiQs e.U. - Alle Rechte vorbehalten.</p>
+        </div>
+        <div class="footer-right">
+            <p>
+                <a href="de_f_impressum.html">Impressum</a> | 
+                <a href="de_f_datenschutz.html">Datenschutzerklärung</a> |
+                <a href="de_f_haftungsausschluss.html">Haftungsausschluss</a>
+            </p>
+        </div>
+    </footer>
+    <img src="back-to-top.png" id="back-to-top" alt="Back to Top" onclick="backToTop()">
+    <div id="cookie-banner" class="cookie-banner">
+        <p>Um unsere Webseite für Sie optimal zu gestalten und fortlaufend verbessern zu können, verwenden wir Cookies. Mehr Informationen dazu finden Sie in unserer 
+            <a href="de_f_datenschutz.html">Datenschutzerklärung.</a>
+        </p>
+        <button id="accept-cookies">Einverstanden</button>
+    </div>
+</body>
+</html>
